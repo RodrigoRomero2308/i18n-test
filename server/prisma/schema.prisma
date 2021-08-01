@@ -1,0 +1,25 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Ingredient {
+  id         Int      @id @default(autoincrement())
+  name       String
+  price      Int
+  currencyId Int
+  currency   Currency @relation(fields: [currencyId], references: [id])
+}
+
+model Currency {
+  id          Int          @id @default(autoincrement())
+  name        String
+  ingredients Ingredient[]
+}
